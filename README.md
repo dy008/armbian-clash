@@ -1,45 +1,34 @@
 # armbian-clash
 recode proxy by clash
+
 Clash Dashboard
 可选安装，我觉得用处不大
 
 web端控制台，新手向，相关设置一目了然
 
-引用站外链接
-Dashboard
-Github
+
 在本地下载并构建，上传至/opt/clash/ui
-
-后续设置的secret将用于登录
-
 
 Clash控制面板
 
 Clash Premium
 Premium版Clash，可实现TUN模式
 
-引用站外链接
-Clash Premium
-Github
 Bash
-wget -O clash.gz https://github.com/Dreamacro/clash/releases/download/premium/clash-linux-amd64-2023.08.17.gz
-Bash
-gzip -dc clash.gz > /usr/local/bin/clash
-chmod +x /usr/local/bin/clash
-Country.mmdb
-提高网络分流的效率和质量
+wget -O clash https://github.com/dy008/armbian-clash/releases/download/backup/clash-linux-arm64-n2023-09-05-gdcc8d87
 
-引用站外链接
-GeoIP
-Github
+Bash
+cp clash /usr/local/bin/clashp
+chmod +x /usr/local/bin/clashp
+
 Bash
 mkdir /etc/clash
-wget -O /etc/clash/Country.mmdb https://github.com/Dreamacro/maxmind-geoip/releases/download/20230812/Country.mmdb
+
 clash.service
 创建clash对应的systemd脚本，实现开机自启，持久化运行
 
 Bash
-vim /etc/systemd/system/clash.service
+nano /etc/systemd/system/clash.service
 
 Code
 [Unit]
@@ -63,6 +52,7 @@ WantedBy=multi-user.target
 
 Bash
 systemctl daemon-reload
+
 config.yaml
 根据机场订阅链接下载
 
@@ -79,9 +69,9 @@ allow-lan: true
 mode: rule
 
 external-controller: :9090
-external-ui: /opt/clash/ui
+external-ui: /etc/clash/ui
 
-secret: "******"
+secret: ""
 
 dns:
   enable: true
@@ -135,14 +125,12 @@ sysctl -p
 Bash
 systemctl start clash
 systemctl enable clash
+
+检查状态
+systemctl status clash
+
 测试
+curl -I https://google.com
 
-启动Clash服务
+done
 
-
-Ping Google
-
-作者: btwoa
-链接: https://blog.btwoa.com/53da714d/
-来源: 放养平凡
-著作权归作者所有。 商业转载请联系作者获得授权，非商业转载请注明出处。
